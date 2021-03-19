@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>간단한 Ajax 예제</title>
+<script type="text/javascript">
+var httpRequest = null;
+// <!-- 웹 브라우저에 상관없이 XMLHttpRequest객체를 생성하는 방법 -->
+function getXMLHttpRequest() {
+	if(window.ActiveXObject){
+		try{
+			return new ActiveXObject("Msxml2.XMLHTTP");
+		}catch(e){
+			try{
+				return new ActiveXObject("Microsoft.XMLHTTP");
+			}catch(e1){
+				return null;
+			}
+		}
+	}else if(window.XMLHttpRequest){
+		return new XMLHttpRequest();
+	}else{
+		return null;
+	}
+}
+// <!-- 경로를 받아서 그 값을 viewMessage 전달 (GET 방식) -->
+function load(url){
+	httpRequest = getXMLHttpRequest();
+	httpRequest.onreadystatechange = viewMessage;
+	httpRequest.open("GET", url, false);
+	httpRequest.send(null);
+}
+// <!-- readyState == 4인 경우 (COMPLETED - 데이터를 전부 받은 상태, 완전한 데이터 사용 가능), status == 200 (OK- 요청 성공) -->
+function viewMessage() {
+	if(httpRequest.readyState == 4){
+		if(httpRequest.status == 200) {
+			alert(httpRequest.responseText);
+		}else{
+			alert("실패 : "+ httpRequest.status);
+		}
+	}
+}
+</script>
+</head>
+<body>
+<input type="button" value="simple.txt" onclick="load('simple.txt')"/>
+<input type="button" value="simple2.txt" onclick="load('simple2.txt')"/>
+<input type="button" value="simple.jsp" onclick="load('simple.jsp')"/>
+<input type="button" value="simple2.jsp" onclick="load('simple2.jsp')"/>
+</body>
+</html>

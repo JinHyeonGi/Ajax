@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>뉴스</title>
+<script type="text/javascript" src="httpRequest.js"></script>
+<script type="text/javascript">
+// getNewsTitles.jsp에서 내용을 가져옴
+function loadNews(){
+	sendRequest("getNewsTitles.jsp", null, loadedNews, "GET");
+}
+function loadedNews(){
+	if(httpRequest.readyState == 4){
+		if(httpRequest.status == 200){
+			var newsList = document.getElementById("newsList");
+			newsList.innerHTML = httpRequest.responseText;
+		}
+	}
+}
+// 코드를 실행하면 loadNews() 함수를 실행
+window.onload = function(){
+	loadNews();
+}
+</script>
+</head>
+<body>
+	<div id="newsList"></div>
+</body>
+</html>
